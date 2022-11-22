@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 require('dotenv').config();
+var bodyParser = require('body-parser');
+
+var multer = require('multer');
 
 //DB Config
 
@@ -12,7 +15,7 @@ dbConnection();
 const app = express();
 
 // Lectura y parseo del Body
-app.use( express.json() );
+app.use( express.json({limit: '10mb'}) );
 
 //Node server
 const server = require('http').createServer(app);
@@ -31,7 +34,7 @@ app.use( express.static( publicPath ));
 //Mis rutas
 
 app.use('/api/user', require('./routes/auth.js'));
-//app.use( '/api/movies', require('./routes/movies'));
+app.use('/api/product', require('./routes/adRoute'));
 
 
 server.listen(process.env.PORT, ( err ) => {

@@ -76,7 +76,7 @@ const loginUser = async (req, res = response) =>{
         
         //Verificando si la contraseña es correcta
         if ( !validPassword ) {
-            return res.status(400).json({
+            return res.status(401).json({
                 ok:false,
                 msg: 'Contraseña no valida'
             });
