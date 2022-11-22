@@ -22,10 +22,21 @@ const createAds = async (req, res = response ) =>{
 
 const getAds = async (req, res = response ) =>{
 
-    const uid = req.uid;
+    const  uid = req.headers['uid'];
     
     //Obtener los anuncios por el UID
-    const ads = await Ad.find( uid );
+    const ads = await Ad.find({"uid": uid});
+
+    res.json({
+        ok: true,
+        ads
+    });
+}
+
+const getAdsHome = async (req, res = response ) =>{
+    
+    //Obtener los anuncios por el UID
+    const ads = await Ad.find();
 
     res.json({
         ok: true,
@@ -35,5 +46,6 @@ const getAds = async (req, res = response ) =>{
 
 module.exports = {
     createAds,
-    getAds
+    getAds,
+    getAdsHome
 }

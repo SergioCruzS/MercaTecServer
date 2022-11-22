@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
  
-var adSchema = new mongoose.Schema({
+var adSchema = Schema({
     uid: {
         type: String,
         required: true
@@ -22,7 +22,12 @@ var adSchema = new mongoose.Schema({
         required: true
     }
 });
+
+adSchema.method('toJSON', function(){
+    const { __v, _id, ...register} = this.toObject();
+    return register;
+});
  
 //Image is a model which has a schema imageSchema
  
-module.exports = new mongoose.model('Ad', adSchema);
+module.exports = model('Ad', adSchema);
