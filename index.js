@@ -3,8 +3,6 @@ const path = require('path');
 require('dotenv').config();
 var bodyParser = require('body-parser');
 
-var multer = require('multer');
-
 //DB Config
 
 const { dbConnection } = require('./database/config');

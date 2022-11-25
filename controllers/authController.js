@@ -2,7 +2,7 @@ const { response } =  require('express');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
-//const { generateJWT } = require('../helpers/jwt');
+const { generateJWT } = require('../helpers/jwt');
 
 const createUser = async (req, res = response ) =>{
 
@@ -35,17 +35,17 @@ const createUser = async (req, res = response ) =>{
         await newUser.save();
 
         //Generar JsonWebToken (JWT)
-        //const token = await generateJWT(newUser.id);
+        const token = await generateJWT(newUser.id);
       
-        //res.json({
-        //   ok: true,
-        //   newUser,
-        //   token
-        //});
         res.json({
-            ok:true,
-            msg: 'Correcto'
-        })
+           ok: "true",
+           newUser,
+           token
+        });
+        //res.json({
+        //    ok:true,
+        //    msg: 'Correcto'
+        //})
 
     } catch (error) {
         console.log(error)
@@ -83,11 +83,12 @@ const loginUser = async (req, res = response) =>{
         }
 
         //Generar JWT
-        //const token = await generateJWT( userDB.id );
-
+        const token = await generateJWT( userDB.id );
+        const uid = userDB.id;
         res.json({
-            ok: true,
-            userDB
+            ok: "true",
+            uid,
+            token
         });
         
     } catch (error) {
@@ -99,7 +100,26 @@ const loginUser = async (req, res = response) =>{
 
 }
 
+const renewToken = async (req, res = response ) =>{
+
+    const {uid} = req.body;
+
+    console.log(uid)
+    //Generar un nuevo JWT
+    const token = await generateJWT( uid );
+    
+    //Obtener el usuario por el UID
+    //const userDB = await User.findById( uid );
+
+    res.json({
+        ok: "True",
+        uid,
+        token
+    });
+}
+
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    renewToken
 }
