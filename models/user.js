@@ -16,7 +16,8 @@ const UserSchema = Schema({
     },
     phone: {
         type: String,
-        required: false
+        required: false,
+        default:""
     },
     active: {
         type: Boolean,

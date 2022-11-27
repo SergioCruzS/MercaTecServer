@@ -70,8 +70,6 @@ const loginUser = async (req, res = response) =>{
             });
         } 
 
-        console.log(userDB)
-
         const validPassword = bcrypt.compareSync( password, userDB.password );
         
         //Verificando si la contraseña es correcta
@@ -118,8 +116,25 @@ const renewToken = async (req, res = response ) =>{
     });
 }
 
+const getUser = async (req, res = response ) =>{
+
+    const uid = req.headers["uid"];
+
+    console.log(uid)
+    const token = "notoken"
+    //Obtener el usuario por el UID
+    const newUser = await User.findById( uid );
+
+    res.json({
+        ok: "True",
+        newUser,
+        token
+    });
+}
+
 module.exports = {
     createUser,
     loginUser,
-    renewToken
+    renewToken,
+    getUser
 }
