@@ -13,7 +13,7 @@ dbConnection();
 const app = express();
 
 // Lectura y parseo del Body
-app.use( express.json({limit: '10mb'}) );
+app.use( express.json({limit: '50mb'}) );
 
 //Node server
 const server = require('http').createServer(app);

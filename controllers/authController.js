@@ -83,9 +83,13 @@ const loginUser = async (req, res = response) =>{
         //Generar JWT
         const token = await generateJWT( userDB.id );
         const uid = userDB.id;
+        const phone = userDB.id;
+        const name = userDB.name;
         res.json({
             ok: "true",
             uid,
+            phone,
+            name,
             token
         });
         
@@ -102,7 +106,6 @@ const renewToken = async (req, res = response ) =>{
 
     const {uid} = req.body;
 
-    console.log(uid)
     //Generar un nuevo JWT
     const token = await generateJWT( uid );
     
@@ -118,23 +121,56 @@ const renewToken = async (req, res = response ) =>{
 
 const getUser = async (req, res = response ) =>{
 
-    const uid = req.headers["uid"];
+    try {
+        const uid = req.headers["uid"];
 
-    console.log(uid)
-    const token = "notoken"
-    //Obtener el usuario por el UID
-    const newUser = await User.findById( uid );
+        const token = "notoken"
+        const newUser = await User.findById( uid );
+        //Obtener el usuario por el UID
 
-    res.json({
-        ok: "True",
-        newUser,
-        token
-    });
+        res.json({
+            ok: "True",
+            newUser,
+            token
+        });
+        
+    } catch (error) {
+        res.json({
+            ok: "True",
+        });
+    }
+}
+
+const updateUser = async (req, res = response ) =>{
+
+    try {
+        const {uid, phone, password} = req.body;
+
+        
+        if (password=="") {
+            await User.findByIdAndUpdate(uid,{"phone":phone})
+        } else {
+            const salt = bcrypt.genSaltSync();
+            passwordEnc = bcrypt.hashSync( password, salt );
+            await User.findByIdAndUpdate(uid,{"phone":phone,"password":passwordEnc})
+        }
+        
+    
+        res.json({
+            ok: "True"
+        });
+    } catch (error) {
+        res.json({
+            ok: "False"
+        });
+        
+    }
 }
 
 module.exports = {
     createUser,
     loginUser,
     renewToken,
-    getUser
+    getUser,
+    updateUser
 }

@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const { check }  = require('express-validator');
-const { createUser, loginUser, renewToken, getUser} = require('../controllers/authController');
+const { createUser, loginUser, renewToken, getUser, updateUser} = require('../controllers/authController');
 const { validate } = require('../middlewares/validateFields');
 
 const router = Router();
@@ -25,6 +25,10 @@ router.post('/login/renew', [
     check('uid','uid requerido').not().isEmpty(),
     validate
 ],renewToken);
+
+router.post('/update', [
+    check('uid','uid requerido').not().isEmpty(),
+],updateUser);
 
 
 router.get('/getUser', getUser);

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check }  = require('express-validator');
-const { createAds, getAds, getAdsHome } = require('../controllers/adController');
+const { createAds, getAds, getAdsHome, getAdsSearch, deleteAd } = require('../controllers/adController');
 const { validate } = require('../middlewares/validateFields');
 const router = Router();
 
@@ -12,8 +12,12 @@ router.post('/add', [
     validate
 ],createAds);
 
+router.post('/delete',deleteAd);
+
 router.get('/get', getAds);
 
 router.get('/getHomeAds', getAdsHome);
+
+router.get('/getQuery', getAdsSearch);
 
 module.exports = router
