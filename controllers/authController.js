@@ -83,7 +83,7 @@ const loginUser = async (req, res = response) =>{
         //Generar JWT
         const token = await generateJWT( userDB.id );
         const uid = userDB.id;
-        const phone = userDB.id;
+        const phone = userDB.phone;
         const name = userDB.name;
         res.json({
             ok: "true",
